@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="data:," />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Author" content="Bjarte Kileng" />
+    <link href="../main.css" rel="stylesheet" type="text/css" />
+    <script src="js/decorator.js"></script>
+
+    <title>Class with decorator</title>
+</head>
+
+<body>
+    <h1>Class with decorators</h1>
+    
+    <p>Observe that no browsers yet support decorators. Code must be transcomiled using e.g. Babel.</p>
+
+    <p>All output is to the web console only.</p>
+    <p>
+        Click the button to run the decorated method.
+    </p>
+    <p>
+        <button type="button" id="sum">Calculate sum</button>
+    </p>
+<pre class="demo">
+function readonly(target) {
+    target.descriptor.writable = false;
+    return target;
+}
+
+function log(target) {
+    const method = target.descriptor.value;
+    target.descriptor.value = function(...args) {
+        console.log(`Starting "${target.key}" with arguments ${args.join(",")}`);
+        const start = Date.now();
+        const ret = method(...args);
+        const millis = Date.now() - start;
+        console.log(`Execution of "${target.key}" took ${millis} milliseconds`);
+        return ret;
+    }
+    return target;
+}
+
+class MyClass {
+    @readonly
+    created = new Date();
+
+    @readonly
+    @log
+    sum(...numbers) {
+        return numbers.reduce((a,b) => a+b);
+    }
+}
+</pre>
+</body>
+</html>

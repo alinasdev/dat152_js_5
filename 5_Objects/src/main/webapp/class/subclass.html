@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" href="data:," />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Bjarte Kileng" />
+<link href="../main.css" rel="stylesheet" type="text/css" />
+<script src="js/subclass.js" type="module"></script>
+<title>A subclass</title>
+</head>
+
+<body>
+    <h1>Public and private fields</h1>
+
+    <p>All output is to the web console only.</p>
+    
+    <p>Private fields are supported by major browsers, except Firefox.</p>
+    
+    <pre class="demo">import Person from './person.js';
+
+export default class extends Person {
+
+    // Public field
+    _course;
+
+    // Public static field
+    static _courseformat = /^\p{Lu}{3}\d{3}$/u;
+
+    constructor(name, course) {
+        super(name); // Calling parent constructor and initializing 'this'
+        this.course = course;
+    }
+
+    // Public setter
+    set course(course) {
+        if (!this.constructor._courseformat.test(course)) throw new Error("Wrong format on course code");
+        this._course = course;
+    }
+
+    // Public getter
+    get course() { return this._course }
+
+    // Public method
+    toJSON() {
+        return {
+            name: this.name,
+            course: this.course
+        };
+    }
+}</pre>
+    
+</body>
+
+</html>

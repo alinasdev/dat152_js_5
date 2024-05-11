@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" href="data:," />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Bjarte Kileng" />
+<link href="../main.css" rel="stylesheet" type="text/css" />
+<script src="js/trapiteration.js" defer></script>
+<title>Trap interation through object</title>
+</head>
+
+<body>
+    <h1>Trap interation through object</h1>
+
+    <p>All output is to the web console only.</p>
+    <p>
+        Click the button to serialize the following object:
+    </p>
+    <pre class="demo">const student = {
+    _fname: "Ole",
+    _lname: "Olsen",
+
+    get fname() { return this._fname },
+    set fname(fname) { this._fname = fname },
+    get lname() { return this._lname },
+    set lname(lname) { this._lname = lname }
+};
+
+const handler = {
+    "ownKeys": function(target) {
+        return Reflect.ownKeys(target).filter(key => key[0] !== "_");
+    }
+};
+
+const proxy = new Proxy(student, handler);</pre>
+    <p>
+        <button type="button" id="bt">Trap iteration through object</button>
+    </p>    
+</body>
+
+</html>

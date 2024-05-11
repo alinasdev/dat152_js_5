@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="data:," />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Author" content="Bjarte Kileng" />
+    <link href="../main.css" rel="stylesheet" type="text/css" />
+    <link href="closure.css" rel="stylesheet" type="text/css" />
+    <script src="js/closure_gettersetter.js" type="module"></script>
+
+    <title>Class with private data through closure, using getters and setters</title>
+</head>
+
+<body>
+    <h1>Class with private data through closure, using getters and setters</h1>
+
+    <pre class="demo">class Student {
+    constructor(fname, lname) {
+        // Private
+        // fname, lname, phone
+        let phone = "11223344";
+
+        // Public
+        Object.defineProperties(this, {
+            "firstname": {
+                "set": function(fn) { fname = fn },
+                "get": function() { return fname }
+            },
+            "lastname": {
+                "set": function(ln) { lname = ln },
+                "get": function() { return lname }
+            },
+            "phone": {
+                "set": function(pn) { phone = pn },
+                "get": function() { return phone }
+            }
+        });
+    }
+}</pre>
+ 
+    <form>
+        <fieldset>
+            <legend>Student data</legend>
+            <label for"fname">First name</label><input type="text" id="fname">
+            <label for"lname">Last name</label><input type="text" id="lname">
+            <label for"phone">Phone</label><input type="text" id="phone">
+
+            <span><button type="button" id="show">Show student</button>
+            <button type="button" id="store">Modify data</button></span>
+        </fieldset>
+    </form>
+    <p id="display">Nothing yet to show</p>
+</body>
+
+</html>

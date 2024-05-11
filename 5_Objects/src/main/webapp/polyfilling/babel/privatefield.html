@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" href="data:," />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Bjarte Kileng" />
+<link href="../main.css" rel="stylesheet" type="text/css" />
+<script src="js/privatefield.js" type="module"></script>
+<title>Public and private fields</title>
+</head>
+
+<body>
+    <h1>Public and private fields</h1>
+
+    <p>All output is to the web console only.</p>
+    
+    <p>Private fields are supported by major newer browsers.</p>
+    
+    <pre class="demo">export default class {
+
+    // Private field
+    #name;
+
+    // Private static field
+    static #nameformat = /^\p{Lu}\p{Ll}+(\s+\p{Lu}\p{Ll}+)*$/u;
+
+    constructor(name) { this.name = name }
+
+    // Public setter
+    set name(name) {
+        if (!this.constructor.#nameformat.test(name)) throw new Error("Wrong format on name");
+        this.#name = name;
+    }
+    
+    // Public getter
+    get name() { return this.#name }
+
+    // Public getter
+    get initials() { return this.constructor.#getFirstChars(this.#nameArray()) }
+
+    // Public method
+    toJSON() {
+        return {
+            name: this.name,
+            initials: this.initials
+        };
+    }
+
+   // Private method
+    #nameArray() { return this.name.split(/\s+/) }
+
+    // Private static method
+    static #getFirstChars(list) {
+        return list.reduce((ac, current) => `${ac}${current[0]}`,"");
+    }
+}</pre>
+    
+</body>
+
+</html>

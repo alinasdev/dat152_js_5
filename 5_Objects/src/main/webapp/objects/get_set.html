@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" href="data:," />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Bjarte Kileng" />
+<link href="../main.css" rel="stylesheet" type="text/css" />
+<script src="js/get_set.js" defer></script>
+
+<title>Serialize object, and using enumerable</title>
+</head>
+
+<body>
+    <h1>Serialize object, and using enumerable</h1>
+
+    <p>All output is to the web console only.</p>
+    <p>
+        Click the button to serialize the following object:
+    </p>
+    <pre class="demo">const student = {};
+
+Object.defineProperties(student, {
+    // Do not serialize "_fname" and "_reg"
+    "_fname": { "writable": true, "enumerable": false },
+    "_reg": { "value": /\p{Lu}\p{Ll}+/u, "enumerable": false },
+
+    "fname": {
+        "enumerable": true, // Can be serialized
+        "set": function(fname) {
+            if (!this._reg.test(fname)) throw new Error("Wrong format on first name");
+            this._fname = fname
+        },
+        "get": function() { return this._fname }
+
+    }
+});</pre>
+    <p>
+        <button type="button" id="bt">Serialize object</button>
+    </p>    
+</body>
+
+</html>
